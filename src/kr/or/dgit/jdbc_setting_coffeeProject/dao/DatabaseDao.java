@@ -54,7 +54,10 @@ public class DatabaseDao {
 		// h-1) SQlExcepction 은 throw로 불러오는 곳에서 처리하도록 해준다.
 		PreparedStatement pstmt = con.prepareStatement(sql);
 		
-		// i ) excuteQuery() 메서드로 sql 쿼리문 실행
+		/* i ) excuteQuery() 메서드로 sql 쿼리문 실행
+		*      excuteQuery()는 ResultSet을 반환한다.
+		*	   ResultSet 쿼리문의 결과값을 가져온다.
+		*/	
 		return pstmt.executeQuery();
 	}
 
