@@ -12,7 +12,7 @@ public class DBCon {
 	private static final DBCon Instance = new DBCon();
 	private Connection connection; // 데이터베이스와 연결을 위한 connection class 객체를 필드로 선언
 	
-	//DBCon 과 Connection 은 유일성을 위해  get___()메서드만 만든다.
+	//DBCon 과 Connection 은 유일성을 위해  get()메서드만 만든다.
 	public static DBCon getInstance() {
 		return Instance;
 	}
