@@ -27,19 +27,27 @@ public class ExportService implements DbService {
 		// config에 저장된 db_name을 받아온다.
 		DatabaseDao.getInstance().executeUpdateSQL("USE " + Config.DB_NAME);
 		
-		// 디렉토리폴더가 없을 시에 새 폴더 생성
-		//Config에 저장된 export_dir를 바다와서 마지막 "\\"를 제거한다뒤 File을 만든다.
-		String filePath = Config.EXPORT_DIR;
-		File file = new File(filePath.substring(0, filePath.lastIndexOf("\\")));
-		if(!file.exists()){
-		    //디렉토리 생성 메서드
-		    file.mkdirs();		   
-	    }
-
-
+		//디렉토리 파일 체크
+		backupDirCheck();
+		
 		// TABLE_NAME을 for each 문을 이용하여 export한다.
 		for(String tblName : Config.TABLE_NAME){
 			exportData(tblName, String.format("select * from %s", tblName) , Config.getFilePath(tblName, true));
+		}
+	}
+
+	private void backupDirCheck() {
+		// 디렉토리폴더가 없을 시에 새 폴더 생성
+		// 디렉토리폴더에 백업파일이 존재시 삭제
+		File backupDir = new File(Config.EXPORT_DIR);
+		if(backupDir.exists()){
+			for(File file : backupDir.listFiles()){
+				file.delete();
+				System.out.printf("%s Delte Success! %n", file.getName());
+			} 
+		}else {
+			backupDir.mkdir();
+			System.out.printf("%s MAKE Success! %n", Config.EXPORT_DIR);
 		}
 	}
 
