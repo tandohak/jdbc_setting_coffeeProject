@@ -16,17 +16,19 @@ public class ExportService implements DbService {
 	private static final ExportService instance = new ExportService();
 	
 	
+	private ExportService() {}
+
 	public static ExportService getInstance() {
 		return instance;
 	}
-
 
 	@Override
 	public void service() {
 		// config에 저장된 db_name을 받아온다.
 		DatabaseDao.getInstance().executeUpdateSQL("USE " + Config.DB_NAME);
 		
-		// 디렉토리에 폴더 생성
+		// 디렉토리폴더가 없을 시에 새 폴더 생성
+		//Config에 저장된 export_dir를 바다와서 마지막 "\\"를 제거한다뒤 File을 만든다.
 		String filePath = Config.EXPORT_DIR;
 		File file = new File(filePath.substring(0, filePath.lastIndexOf("\\")));
 		if(!file.exists()){
@@ -58,9 +60,9 @@ public class ExportService implements DbService {
 				// rs.next()에서 받아온 row의 column을 받아오기 위한 for문
 				// index는 1부터 시작한다.
 				for(int i = 1; i <= colCnt; i++){
-					sb.append(rs.getObject(i) + ",");//sb에 rs의 i번째 데이터를 받아서 저장한다
+					sb.append(rs.getObject(i) + "	");//sb에 rs의 i번째 데이터를 받아서 저장한다
 				}				
-				sb.replace(sb.length() -1, sb.length(), ""); //마지막 라인의 comma 제거
+//				sb.replace(sb.length() -1, sb.length(), ""); //마지막 라인의 comma 제거
 				sb.append("\r\n");//줄바꿈
 			}
 			

@@ -7,7 +7,7 @@ public class Config {
 	//TABLE명
 	public static final String[] TABLE_NAME = {"productcode","product","coffeereport"};
 	//사용자의 디렉토리 경로
-	public static final String USER_DIR = System.getProperty("user.dir") + "\\";
+	private static final String USER_DIR = System.getProperty("user.dir") + "\\";
 	
 	// 백업 , 복원을 위한 디렉토리 경로
 	// sql문을 불러오기 위한 디렉토리 경로
