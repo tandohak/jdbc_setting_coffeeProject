@@ -1,5 +1,6 @@
 package kr.or.dgit.jdbc_setting_coffeeProject.service;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,6 +26,16 @@ public class ExportService implements DbService {
 		// config에 저장된 db_name을 받아온다.
 		DatabaseDao.getInstance().executeUpdateSQL("USE " + Config.DB_NAME);
 		
+		// 디렉토리에 폴더 생성
+		String filePath = Config.EXPORT_DIR;
+		File file = new File(filePath.substring(0, filePath.lastIndexOf("\\")));
+		if(!file.exists()){
+		    //디렉토리 생성 메서드
+		    file.mkdirs();
+		   
+	    }
+
+
 		// TABLE_NAME을 for each 문을 이용하여 export한다.
 		for(String tblName : Config.TABLE_NAME){
 			exportData(tblName, String.format("select * from %s", tblName) , Config.getFilePath(tblName, true));
@@ -54,6 +65,7 @@ public class ExportService implements DbService {
 			}
 			
 			//sb에 저장된 데이터를 파일로 쓰기위한 메서드 매개변수로 export할 데이터 sb와 경로 exportPath가 있다.
+			
 			backupFileWrite(sb.toString(), exportPath);
 		} catch (SQLException e) {				
 			e.printStackTrace();
@@ -72,6 +84,8 @@ public class ExportService implements DbService {
 		//매개변수로 받은 데이터, 파일 경로를 받아
 		// OutputStreamWriter로 .txt 파일을 경로에 만든다.
 		// 개선된 try문을 이용하여 OutputStreamWriter가 완료되면 자동으로 닫히게 된다. close() 메서드를 굳이 쓸 필요가 없다.
+		
+		
 		try(OutputStreamWriter dos = new OutputStreamWriter(new FileOutputStream(filePath))){
 			dos.write(str);
 		}
