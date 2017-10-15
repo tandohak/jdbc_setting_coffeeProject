@@ -45,6 +45,7 @@ public class InitTriggerService implements DbService {
 					statement.append(line.trim()+" ");
 				}
 			}		
+			
 			DatabaseDao.getInstance().executeUpdateSQL(statement.toString());;
 			statement.setLength(0);
 		} catch (FileNotFoundException e) {

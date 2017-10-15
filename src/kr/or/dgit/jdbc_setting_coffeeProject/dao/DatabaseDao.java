@@ -18,8 +18,7 @@ public class DatabaseDao {
 	}
 
 	// 생성자
-	public DatabaseDao() {
-	}
+	private DatabaseDao() {}
 
 	// SQL UPDATE 문을 위한 메서드
 	// SQL 문을 받기위해 String 매개변수 sql 생성

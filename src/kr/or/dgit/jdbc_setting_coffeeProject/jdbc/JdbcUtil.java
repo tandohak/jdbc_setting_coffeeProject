@@ -1,7 +1,10 @@
 package kr.or.dgit.jdbc_setting_coffeeProject.jdbc;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class JdbcUtil {
@@ -26,5 +29,28 @@ public class JdbcUtil {
 				e.printStackTrace();
 			}			
 		}	
+	}
+
+	public static void close(ResultSet rs) {
+		if(rs != null){
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}			
+		}
+		
+	}
+
+	public static void close(OutputStreamWriter dos) {
+		if(dos != null){
+			try {
+				dos.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
+		}
+		
 	}
 }
