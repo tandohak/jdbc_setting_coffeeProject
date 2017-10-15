@@ -4,8 +4,9 @@ import java.sql.Connection;
 
 import kr.or.dgit.jdbc_setting_coffeeProject.jdbc.DBCon;
 import kr.or.dgit.jdbc_setting_coffeeProject.jdbc.JdbcUtil;
-import kr.or.dgit.jdbc_setting_coffeeProject.servies.DbService;
-import kr.or.dgit.jdbc_setting_coffeeProject.servies.InitService;
+import kr.or.dgit.jdbc_setting_coffeeProject.service.DbService;
+import kr.or.dgit.jdbc_setting_coffeeProject.service.InitService;
+import kr.or.dgit.jdbc_setting_coffeeProject.service.InitTriggerService;
 
 public class TestMain {
 
@@ -17,6 +18,10 @@ public class TestMain {
 		
 		DbService service = InitService.getInstance();
 		service.service();
+		
+		service = InitTriggerService.getInstance();
+		service.service();
+		
 		JdbcUtil.close(connection);
 	}
 
