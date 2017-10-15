@@ -55,4 +55,5 @@ where p.proCode = c.proCode
 group by proCode 
 order by marginPrice desc ;
 
-
+-- 데이터 베이스 권한 설정
+grant select, insert, update, delete on coffee_project.* to 'user_coffee_project' identified by '1234';
