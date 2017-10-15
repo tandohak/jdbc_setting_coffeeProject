@@ -8,7 +8,7 @@ import kr.or.dgit.jdbc_setting_coffeeProject.service.DbService;
 import kr.or.dgit.jdbc_setting_coffeeProject.service.ExportService;
 import kr.or.dgit.jdbc_setting_coffeeProject.service.ImportService;
 import kr.or.dgit.jdbc_setting_coffeeProject.service.InitService;
-import kr.or.dgit.jdbc_setting_coffeeProject.service.InitTriggerService;
+import kr.or.dgit.jdbc_setting_coffeeProject.service.ImportTriggerService;
 
 public class TestMain {
 
@@ -21,14 +21,14 @@ public class TestMain {
 		DbService service = InitService.getInstance();
 		service.service();
 		
-		service = InitTriggerService.getInstance();
-		service.service();
-		
-		service = ExportService.getInstance();
+		service = ImportTriggerService.getInstance();
 		service.service();
 		
 		service = ImportService.getInstance();
 		service.service();
+		
+		service = ExportService.getInstance();
+		service.service();		
 		
 		JdbcUtil.close(connection);
 	}

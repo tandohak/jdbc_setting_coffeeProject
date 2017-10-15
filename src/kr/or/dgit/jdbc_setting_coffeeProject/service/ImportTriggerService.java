@@ -9,14 +9,14 @@ import java.io.IOException;
 import kr.or.dgit.jdbc_setting_coffeeProject.dao.DatabaseDao;
 import kr.or.dgit.jdbc_setting_coffeeProject.jdbc.DBCon;
 
-public class InitTriggerService implements DbService {
-	private static final InitTriggerService instance = new InitTriggerService();
+public class ImportTriggerService implements DbService {
+	private static final ImportTriggerService instance = new ImportTriggerService();
 	
 
 
-	private InitTriggerService() {	}
+	private ImportTriggerService() {	}
 
-	public static InitTriggerService getInstance() {
+	public static ImportTriggerService getInstance() {
 		return instance;
 	}
 
