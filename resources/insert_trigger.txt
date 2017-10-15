@@ -1,0 +1,18 @@
+-- insert trigger 생성
+-- drop trigger if exists coffee_project.tri_product_after_insert_coffeeReport;
+
+create trigger coffee_project.tri_product_after_insert_coffeeReport
+after insert
+on coffee_project.product
+for each row
+begin
+	insert into coffee_project.coffeeReport
+	values(
+		new.proCode,		
+		new.price*new.sale, 
+		ceiling(new.price/11), 
+		new.price-ceiling(new.price/11),		
+		round(new.margin*(new.price-(new.price/11)))
+		);	
+end;
+

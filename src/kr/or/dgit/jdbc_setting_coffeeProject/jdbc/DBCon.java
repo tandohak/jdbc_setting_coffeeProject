@@ -41,7 +41,7 @@ public class DBCon {
 		try {
 			connection = DriverManager.getConnection(url, user, password);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			System.err.printf("%s - %s%n", e.getErrorCode(), e.getMessage());
 			e.printStackTrace();
 		}
 		

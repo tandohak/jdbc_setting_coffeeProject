@@ -23,7 +23,7 @@ public class DatabaseDao {
 
 	// SQL UPDATE 문을 위한 메서드
 	// SQL 문을 받기위해 String 매개변수 sql 생성
-	public void excuteUpdateSQL(String sql) {
+	public void executeUpdateSQL(String sql) {
 		// a ) DB연결을 위해 DBcon을 Connection con에 연결
 		Connection con = DBCon.getInstance().getConnection();
 
