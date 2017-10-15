@@ -1,0 +1,37 @@
+
+
+-- 같은 이름 트리거 삭제
+drop trigger if exists coffee_project.tri_product_after_insert_coffeeReport; $$
+
+-- insert trigger 생성
+create trigger coffee_project.tri_product_after_insert_coffeeReport
+after insert
+on coffee_project.product
+for each row
+begin
+	insert into coffee_project.coffeeReport
+	values(
+		new.proCode,		
+		new.price*new.sale, 
+		ceiling(new.price/11), 
+		new.price-ceiling(new.price/11),		
+		round(new.margin*(new.price-(new.price/11)))
+		);	
+end; $$
+
+-- 같은 이름 트리거 삭제
+drop trigger if exists coffee_project.tri_product_after_update_cofeeReport; $$
+
+-- update trigger 생성
+create trigger coffee_project.tri_product_after_update_cofeeReport
+after update
+on coffee_project.product
+for each row
+begin
+	update coffee_project.coffeeReport 
+	set priceSum = new.price*new.sale,
+		surtax = ceiling(new.price/11),
+		supply = new.price-ceiling(new.price/11),
+		marginPrice = round(new.margin*(new.price-(new.price/11)))
+	where proCode = new.proCode;
+end ; $$

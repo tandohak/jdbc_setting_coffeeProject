@@ -22,21 +22,8 @@ public class InitTriggerService implements DbService {
 
 	@Override
 	public void service() {
-		File insert = new File(System.getProperty("user.dir") + "\\resources\\insert_trigger.txt");
-		File update = new File(System.getProperty("user.dir") + "\\resources\\update_trigger.txt");
+		File f = new File(System.getProperty("user.dir") + "\\resources\\create_trigger.txt");
 		
-		String dropInsert = "drop trigger if exists coffee_project.tri_product_after_insert_coffeeReport";
-		String dropUpdate = "drop trigger if exists coffee_project.tri_product_after_update_cofeeReport";
-		
-		DatabaseDao.getInstance().executeUpdateSQL(dropInsert);;
-		DatabaseDao.getInstance().executeUpdateSQL(dropUpdate);;
-		
-		updateQuery(insert);
-		updateQuery(update);
-
-	}
-
-	private void updateQuery(File f) {
 		try(BufferedReader br = new BufferedReader(new FileReader(f))){
 			StringBuilder statement = new StringBuilder();
 	
@@ -44,15 +31,20 @@ public class InitTriggerService implements DbService {
 				if(!line.isEmpty() && !line.startsWith("--")){
 					statement.append(line.trim()+" ");
 				}
+				
+				if(line.endsWith("$$")){
+					statement.replace(statement.lastIndexOf("$$"),statement.length(), "");
+					DatabaseDao.getInstance().executeUpdateSQL(statement.toString());;
+					statement.setLength(0);
+				}
 			}		
 			
-			DatabaseDao.getInstance().executeUpdateSQL(statement.toString());;
-			statement.setLength(0);
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
 
+	}
 }
