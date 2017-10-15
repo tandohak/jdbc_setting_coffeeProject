@@ -16,9 +16,7 @@ public class InitService implements DbService {
 		return instance;
 	}
 	
-	private InitService() {
-		// TODO Auto-generated constructor stub
-	}
+	private InitService() {}
 
 	@Override
 	public void service() {

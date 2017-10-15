@@ -14,7 +14,7 @@ public class ImportTriggerService implements DbService {
 	
 
 
-	private ImportTriggerService() {	}
+	private ImportTriggerService() {}
 
 	public static ImportTriggerService getInstance() {
 		return instance;

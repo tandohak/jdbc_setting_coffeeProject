@@ -33,8 +33,7 @@ public class ExportService implements DbService {
 		File file = new File(filePath.substring(0, filePath.lastIndexOf("\\")));
 		if(!file.exists()){
 		    //디렉토리 생성 메서드
-		    file.mkdirs();
-		   
+		    file.mkdirs();		   
 	    }
 
 
