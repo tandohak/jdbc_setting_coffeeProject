@@ -40,20 +40,34 @@ create table if not exists coffee_project.coffeeReport(
 -- 판매금액순 뷰테이블 생성
 create view coffee_project.coffeeReport_ranked_priceSum as select 
 (select count(*)+1 from coffee_project.coffeereport where priceSum > c.priceSum) as rank,
-p.proCode,pc.producName, price, sale, priceSum, surtax, supply, marginPrice 
+p.proCode,pc.producName, price, sale, priceSum, surtax, supply, margin, marginPrice 
 from coffee_project.product p join coffee_project.coffeereport c join coffee_project.productCode pc 
 where p.proCode = c.proCode 
 group by proCode 
 order by priceSum desc;
-
 -- 마진액 순위 뷰테이블 생성
 create view coffee_project.coffeeReport_ranked_marginPrice as select 
 (select count(*)+1 from coffee_project.coffeereport where marginPrice > c.marginPrice) as rank,
-p.proCode, pc.producName, price, sale, priceSum, surtax, supply, marginPrice 
+p.proCode, pc.producName, price, sale, priceSum, surtax, supply, margin, marginPrice 
 from coffee_project.product p join coffee_project.coffeereport c join coffee_project.productCode pc 
 where p.proCode = c.proCode 
 group by proCode 
-order by marginPrice desc ;
+order by marginPrice desc;
+
+create view coffee_project.coffee_rank_marginPrice_AllSum as
+select * from coffeeReport_ranked_marginPrice
+union
+select "합계","","","","",sum(priceSum), sum(surtax), sum(supply),"",sum(marginPrice)
+from coffeeReport_ranked_marginPrice;
+
+
+create view coffee_project.coffee_rank_priceSum_AllSum as
+select * from coffeeReport_ranked_priceSum
+union
+select "합계","","","","",sum(priceSum), sum(surtax), sum(supply),"",sum(marginPrice)
+from coffeeReport_ranked_priceSum;
 
 -- 데이터 베이스 권한 설정
 grant select, insert, update, delete on coffee_project.* to 'user_coffee_project' identified by '1234';
+
+

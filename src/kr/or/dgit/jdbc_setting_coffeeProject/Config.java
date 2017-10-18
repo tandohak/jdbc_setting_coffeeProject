@@ -5,7 +5,7 @@ public class Config {
 	//DB명
 	public static final String DB_NAME = "coffee_project";
 	//TABLE명
-	public static final String[] TABLE_NAME = {"productcode","product","coffeereport"};
+	public static final String[] TABLE_NAME = {"productcode","product"};
 	//사용자의 디렉토리 경로
 	private static final String USER_DIR = System.getProperty("user.dir") + "\\";
 	

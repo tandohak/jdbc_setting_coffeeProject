@@ -13,10 +13,10 @@ begin
 	values(
 		new.proCode,		
 		new.price*new.sale, 
-		ceiling(new.price/11), 
-		new.price-ceiling(new.price/11),		
-		round(new.margin*(new.price-(new.price/11)))
-		);	
+		ceiling((new.price*new.sale)/11), 
+		(new.price*new.sale)-ceiling((new.price*new.sale)/11),		
+		round((new.margin/100)*((new.price*new.sale)-(new.price*new.sale)/11))
+		);
 end; $$
 
 -- 같은 이름 트리거 삭제
@@ -30,8 +30,8 @@ for each row
 begin
 	update coffee_project.coffeeReport 
 	set priceSum = new.price*new.sale,
-		surtax = ceiling(new.price/11),
-		supply = new.price-ceiling(new.price/11),
-		marginPrice = round(new.margin*(new.price-(new.price/11)))
+		surtax = ceiling((new.price*new.sale)/11),
+		supply = (new.price*new.sale)-ceiling((new.price*new.sale)/11),
+		marginPrice = round((new.margin/100)*((new.price*new.sale)-(new.price*new.sale)/11))
 	where proCode = new.proCode;
 end ; $$
