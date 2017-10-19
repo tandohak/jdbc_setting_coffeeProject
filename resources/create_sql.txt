@@ -37,37 +37,36 @@ create table if not exists coffee_project.coffeeReport(
 	on update cascade
 );
 
--- 판매금액순 뷰테이블 생성
-create view coffee_project.coffeeReport_ranked_priceSum as select 
-(select count(*)+1 from coffee_project.coffeereport where priceSum > c.priceSum) as rank,
-p.proCode,pc.producName, price, sale, priceSum, surtax, supply, margin, marginPrice 
-from coffee_project.product p join coffee_project.coffeereport c join coffee_project.productCode pc 
-where p.proCode = c.proCode 
-group by proCode 
+-- 판매금액순 커피리포트 뷰테이블  
+create view coffee_project.coffeeReport_rank_priceSum as
+select (select count(*)+1 from coffee_project.coffeereport where priceSum > c.priceSum) as rank,
+proCode,priceSum,surtax,supply,marginPrice
+from  coffee_project.coffeereport c
 order by priceSum desc;
--- 마진액 순위 뷰테이블 생성
-create view coffee_project.coffeeReport_ranked_marginPrice as select 
-(select count(*)+1 from coffee_project.coffeereport where marginPrice > c.marginPrice) as rank,
-p.proCode, pc.producName, price, sale, priceSum, surtax, supply, margin, marginPrice 
-from coffee_project.product p join coffee_project.coffeereport c join coffee_project.productCode pc 
-where p.proCode = c.proCode 
-group by proCode 
+
+-- 마진액순 커피리포트 뷰테이블
+create view coffee_project.coffeeReport_rank_marginPrice as
+select (select count(*)+1 from coffee_project.coffeereport where marginPrice > c.marginPrice) as rank,
+proCode,priceSum,surtax,supply,marginPrice
+from  coffee_project.coffeereport c
 order by marginPrice desc;
 
-create view coffee_project.coffee_rank_marginPrice_AllSum as
-select * from coffeeReport_ranked_marginPrice
-union
-select "합계","","","","",sum(priceSum), sum(surtax), sum(supply),"",sum(marginPrice)
-from coffeeReport_ranked_marginPrice;
+-- 판매금액순 랭크 뷰테이블
+create view coffee_project.coffee_rank_pricesum_allsum as 
+select rank, p.proCode, pc.producName, p.price, p.sale, c.priceSum, c.surtax, c.supply, p.margin, c.marginPrice
+from coffee_project.coffeeReport_rank_marginPrice c, coffee_project.product p, coffee_project.productCode pc 
+where c.proCoDE = p.procode 
+and p.procode = pc.producCode 
+order by priceSum desc;
 
+-- 마진액순 랭크 뷰테이블
+create view coffee_project.coffee_rank_marginprice_allsum as 
+select rank, p.proCode, pc.producName, p.price, p.sale, c.priceSum, c.surtax, c.supply, p.margin, c.marginPrice
+from coffee_project.coffeeReport_rank_marginPrice c, coffee_project.product p, coffee_project.productCode pc 
+where c.proCoDE = p.procode 
+and p.procode = pc.producCode 
+order by marginprice desc;
 
-create view coffee_project.coffee_rank_priceSum_AllSum as
-select * from coffeeReport_ranked_priceSum
-union
-select "합계","","","","",sum(priceSum), sum(surtax), sum(supply),"",sum(marginPrice)
-from coffeeReport_ranked_priceSum;
-
--- 데이터 베이스 권한 설정
+-- create and gran user
 grant select, insert, update, delete on coffee_project.* to 'user_coffee_project' identified by '1234';
-
 
